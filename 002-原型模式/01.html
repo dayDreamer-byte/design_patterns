@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>使用原型+构造器模式实现选项卡功能</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .container,
+            .container1 {
+                width: 400px;
+            }
+            .header {
+                width: 100%;
+                list-style: none;
+                display: flex;
+                align-items: center;
+            }
+            .header li {
+                width: calc(100% / 7);
+                text-align: center;
+                height: 50px;
+                line-height: 50px;
+            }
+            .header > li.active {
+                background-color: red;
+            }
+
+            .box {
+                width: 100%;
+                height: 400px;
+            }
+            .box > div {
+                display: none;
+                height: 100%;
+            }
+            .box > div.active {
+                display: block;
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <ul class="header">
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+            </ul>
+            <div class="box">
+                <div class="active">111</div>
+                <div>222</div>
+                <div>333</div>
+                <div>444</div>
+                <div>555</div>
+                <div>666</div>
+                <div>777</div>
+            </div>
+        </div>
+        <div class="container1">
+            <ul class="header">
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+            </ul>
+            <div class="box">
+                <div class="active">111</div>
+                <div>222</div>
+                <div>333</div>
+                <div>444</div>
+                <div>555</div>
+                <div>666</div>
+                <div>777</div>
+            </div>
+        </div>
+
+        <script>
+            // 使用构造器+原型模式实现选项卡功能
+            function Tabs(selector, type) {
+                this.type = type;
+                this.selector = document.querySelector(selector);
+                // 导航部分
+                this.headItems = this.selector.querySelectorAll(".header li");
+                // 内容部分
+                this.boxItems = this.selector.querySelectorAll(".box div");
+                this.change();
+            }
+
+            Tabs.prototype.change = function () {
+                for (var i = 0; i < this.headItems.length; i++) {
+                    this.headItems[i].index = i;
+                    this.headItems[i].boxItems = this.boxItems;
+                    this.headItems[i].headItems = this.headItems;
+                    this.headItems[i][this.type] = function () {
+                        for (var m = 0; m < this.headItems.length; m++) {
+                            console.log(m);
+                            console.log(this.headItems);
+                            this.headItems[m].classList.remove("active");
+                            this.boxItems[m].classList.remove("active");
+                            if (m === this.index) {
+                                this.headItems[this.index].classList.add("active");
+                                this.boxItems[this.index].classList.add("active");
+                            }
+                        }
+                    };
+                }
+            };
+
+            // 传入选项卡的选择器
+            new Tabs(".container", "onclick");
+            new Tabs(".container1", "onmousemove");
+        </script>
+    </body>
+</html>

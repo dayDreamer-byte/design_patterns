@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 组合模式+命令模式应用  不理解？？？？
+            // 我的理解这就是组合模式
+
+            class Command {
+                constructor() {
+                    this.list = [];
+                }
+                add(command) {
+                    this.list.push(command);
+                }
+                execute() {
+                    for (let item of this.list) {
+                        item.execute();
+                    }
+                }
+            }
+
+            const tab = {
+                execute() {
+                    console.log("选项卡执行");
+                },
+            };
+            const swipe = {
+                execute() {
+                    console.log("轮播执行");
+                },
+            };
+
+            const command = new Command();
+            command.add(tab);
+            command.add(swipe);
+
+            command.execute();
+        </script>
+    </body>
+</html>

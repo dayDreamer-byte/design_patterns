@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 发布订阅模式
+            // publish 发布
+            // subscribe 订阅
+
+            // 简单的发布订阅模式
+            // 这种实际与观察者模式没有区别，事件单一没有办法解耦。通过添加事件类型 归类事件。
+            const PubSub = {
+                message: {}, // 调度中心
+                // 发布事件
+                publish(type) {
+                    if (!this.message[type]) return;
+                    this.message[type].forEach((item) => {
+                        item();
+                    });
+                },
+                // 订阅事件
+                subscribe(type, cb) {
+                    if (!this.message[type]) {
+                        this.message[type] = [cb];
+                    } else {
+                        cb && this.message[type].push(cb);
+                    }
+                },
+                unsubscribe(type, cb) {
+                    if (!cb) {
+                        this.message[type].length = 0;
+                    } else {
+                        this.message[type] = this.message[type].filter((item) => item !== cb);
+                    }
+                },
+            };
+            function testA() {
+                console.log("testA");
+            }
+            function testB() {
+                console.log("testB");
+            }
+            function testC() {
+                console.log("testC");
+            }
+
+            PubSub.subscribe("a", testA);
+            PubSub.subscribe("b", testB);
+            PubSub.subscribe("a", testC);
+
+            PubSub.publish("a");
+        </script>
+    </body>
+</html>

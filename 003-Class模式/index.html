@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            class User {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                // say挂载在原型上，不会初始化到实例上
+                say() {
+                    console.log(this.name + "-" + this.age);
+                }
+                // 静态方法 类直接调用User.singing();
+                static singing() {
+                    console.log("歌唱...");
+                }
+            }
+
+            const worker = new User("a", 100);
+            const singer = new User("j", 18);
+            console.log(worker, singer);
+            worker.say();
+            singer.say();
+        </script>
+    </body>
+</html>

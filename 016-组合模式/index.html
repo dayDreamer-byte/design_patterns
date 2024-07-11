@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 组合模式在对象间形成树形结构；组合模式中基本对象和组合对象被一致对待；
+            // 无需关心对象有多少层，调用时只需在根部进行调用。
+
+            const Folder = function (folder) {
+                this.folder = folder;
+                this.lists = [];
+            };
+
+            Folder.prototype.add = function (res) {
+                this.lists.push(res);
+            };
+            Folder.prototype.scan = function () {
+                console.log("扫描", this.folder, "文件夹");
+                if (this.lists.length > 0) {
+                    this.lists.forEach((item) => {
+                        item.scan();
+                    });
+                }
+            };
+
+            const File = function (file) {
+                this.file = file;
+            };
+
+            File.prototype.scan = function () {
+                console.log("扫描", this.file, "文件");
+            };
+
+            const root = new Folder("root");
+            const HTMLFOLDER = new Folder("HTML");
+            const JSFOLDER = new Folder("JS");
+            const CSSFOLDER = new Folder("CSS");
+
+            const INDEXHTML = new File("INDEXHTML");
+            const HOMEHTML = new File("HOMEHTML");
+            const INDEXCSS = new File("INDEXCSS");
+            const HOMECSS = new File("HOMECSS");
+            const INDEXJS = new File("INDEXJS");
+            const HOMEJS = new File("HOMEJS");
+
+            HTMLFOLDER.add(INDEXHTML);
+            HTMLFOLDER.add(HOMEHTML);
+
+            CSSFOLDER.add(INDEXCSS);
+            CSSFOLDER.add(HOMECSS);
+
+            JSFOLDER.add(INDEXJS);
+            JSFOLDER.add(HOMEJS);
+
+            root.add(HTMLFOLDER);
+            root.add(JSFOLDER);
+            root.add(CSSFOLDER);
+            root.scan();
+        </script>
+    </body>
+</html>

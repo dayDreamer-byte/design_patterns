@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 桥接模式
+			// 将抽象部分和它的实现部分分离，使它们都可以独立的变化。
+			// 使用场景：一个类存在两个或多个独立变化的维度，且这两个维度都需要进行拓展。
+
+			// 抽象部分
+			// 这是一个基类，不需要在代码其他部分使用。
+			// 基类的作用是定义一些基础的方法和属性，其他具体的形状类可以继承自该基类，并根据自身的特点实现特定的方法和属性。
+			// 通过这种方式，我们可以在程序中方便地对不同的类进行统一的操作和处理。
+			// 这个示例里 此类的作用是定义一些基于此类的类，实现自身的特点。例如（圆形、矩形）
+			class Shape {
+				constructor(color) {
+					this.color = color;
+				}
+				draw() {
+					throw new Error("This method should be overridden");
+				}
+			}
+
+			// 实现部分
+			// 基于基类实现
+			class Square {
+				constructor(side, color) {
+					this.side = side;
+					this.color = color;
+				}
+				draw() {
+					console.log(`Drawing a ${this.color} square with side ${this.side}`);
+				}
+			}
+
+			class Circle extends Shape {
+				constructor(color) {
+					super(color);
+				}
+				// 重写父类draw
+				draw() {
+					console.log(`Drawing a ${this.color}`);
+				}
+			}
+
+			// 桥接类（桥接接口）
+			class ShapeBridge {
+				constructor(shape) {
+					this.shape = shape;
+				}
+				draw() {
+					this.shape.draw();
+				}
+			}
+
+			// 使用桥接模式
+			const blueSquare = new ShapeBridge(10, "blue");
+			const circle = new ShapeBridge("red");
+			blueSquare.draw();
+			circle.draw();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 模板方法模式：是一种典型的通过封装变化提高系统拓展性的设计模式。
+
+            // 场景：页面布局基本一致时。
+
+            // 正常渲染逻辑
+            // var F = function () {
+            //     this.init = function () {
+            //         this.getData();
+            //         this.render();
+            //     };
+            // };
+            // F.prototype.getData = function () {
+            //     console.log("getData");
+            // };
+            // F.prototype.render = function () {
+            //     console.log("render");
+            // };
+
+            // new F().init();
+
+            // 使用模板方法模式
+            // 形参param给一个默认值 不然下面param.getData会报错
+            var container = function (param = {}) {
+                var F = function () {};
+                F.prototype.init = async function () {
+                    const res = await this.getData();
+                    this.render(res);
+                };
+                // 模拟抽象父类的抽象方法。子类必须实现。
+                F.prototype.getData =
+                    param.getData ||
+                    function () {
+                        throw new Error("必须重写getData方法");
+                    };
+                F.prototype.render = function (list) {
+                    console.log("render", list);
+                };
+                return F;
+            };
+            var F = container({
+                getData: function () {
+                    return [1, 2, 3];
+                },
+            });
+            new F().init();
+        </script>
+    </body>
+</html>

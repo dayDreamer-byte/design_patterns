@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>单例模式实现弹窗</title>
+        <style>
+            .modal {
+                width: 200px;
+                height: 200px;
+                background-color: bisque;
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                text-align: center;
+                line-height: 200px;
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <button>打开</button>
+        <button>关闭</button>
+        <script>
+            var modalSingleton = (function () {
+                var instance = null;
+                return function () {
+                    if (!instance) {
+                        instance = document.createElement("div");
+                        instance.className = "modal";
+                        instance.innerText = "我是单例模态框";
+                        document.body.appendChild(instance);
+                        return instance;
+                    }
+                    return instance;
+                };
+            })();
+
+            class modalSingleton1 {
+                constructor() {
+                    if (!modalSingleton1.instance) {
+                        this.modal = document.createElement("div");
+                        this.modal.className = "modal";
+                        this.modal.innerText = "我是es6单例模态框";
+                        document.body.appendChild(this.modal);
+                        modalSingleton1.instance = this;
+                    }
+                    return modalSingleton1.instance;
+                }
+            }
+
+            var btns = document.querySelectorAll("button");
+            btns[0].addEventListener("click", function () {
+                // var modal = modalSingleton();
+                let modal = new modalSingleton1();
+                modal.modal.style.display = "block";
+            });
+            btns[1].addEventListener("click", function () {
+                // var modal = modalSingleton();
+                let modal = new modalSingleton1();
+                modal.modal.style.display = "none";
+            });
+        </script>
+    </body>
+</html>

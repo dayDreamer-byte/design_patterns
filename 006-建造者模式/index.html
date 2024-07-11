@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 建造者模式
+            // 属于创建型模式的一种，提供一种创建复杂对象的方式。它将一个复杂的对象的构建和表现分离，使得同样的构建过程可以创建不同的表示。
+            class NavBar {
+                init() {
+                    console.log("navbar --- init");
+                }
+                getData() {
+                    console.log("navbar --- getData");
+                }
+                render() {
+                    console.log("navbar --- render");
+                }
+            }
+            class List {
+                init() {
+                    console.log("list --- init");
+                }
+                getData() {
+                    console.log("list --- getData");
+                }
+                render() {
+                    console.log("list --- render");
+                }
+            }
+
+            // 建造者类
+            class creator {
+                startBuild(builder) {
+                    builder.init();
+                    builder.getData();
+                    builder.render();
+                }
+            }
+
+            // 实例化建造者对象，传入实例化不同的对象，执行相同的逻辑
+            const op = new creator();
+            op.startBuild(new NavBar());
+            op.startBuild(new List());
+        </script>
+    </body>
+</html>

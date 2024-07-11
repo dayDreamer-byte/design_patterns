@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                width: 500px;
+                background-color: skyblue;
+                display: flex;
+                align-items: flex-start;
+            }
+            .left {
+                list-style: none;
+                width: 100px;
+            }
+            .left li {
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+            }
+            .right {
+                width: 400px;
+                height: 100%;
+                padding: 16px;
+                background-color: #000;
+                color: #fff;
+            }
+            header {
+                width: 500px;
+                background-color: pink;
+                height: 50px;
+                line-height: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <header></header>
+        <div class="container">
+            <ul class="left">
+                <li>首页</li>
+                <li>用户管理</li>
+                <li>权限管理</li>
+                <li>资讯管理</li>
+                <li>菜单管理</li>
+            </ul>
+            <div class="right">
+                <div class="nav">nav</div>
+                <div class="right-body"></div>
+            </div>
+        </div>
+        <script>
+            // 发布订阅模式应用场景
+            class PubSub {
+                constructor() {
+                    // 调度中心
+                    this.message = {};
+                }
+                // 发布中心
+                publish(type, data) {
+                    if (!this.message[type]) return;
+                    this.message[type].forEach((item) => {
+                        item(data);
+                    });
+                }
+                // 订阅中心
+                subscribe(type, cb) {
+                    if (!this.message[type]) this.message[type] = [cb];
+                    if (this.message[type]) this.message[type].push(cb);
+                }
+                unsubscribe(type, cb) {
+                    if (!cb) {
+                        this.message[type].length = 0;
+                    } else {
+                        this.message[type].filter((item) => item !== cb);
+                    }
+                }
+            }
+
+            const pubSub = new PubSub();
+            pubSub.subscribe("updateNav", function (data) {
+                document.querySelector(".nav").innerText = data;
+            });
+            pubSub.subscribe("updateNav", function (data) {
+                document.querySelector("header").innerText = data;
+            });
+
+            let lis = document.querySelectorAll("li");
+            lis.forEach((item) => {
+                item.onclick = function () {
+                    pubSub.publish("updateNav", this.innerText);
+                };
+            });
+        </script>
+    </body>
+</html>

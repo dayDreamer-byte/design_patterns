@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 场景演示：奥迪车型搭配发动机
+			function AoDi(engine) {
+				this.engine = engine;
+			}
+
+			AoDi.prototype.platform = function () {
+				console.log("aodi");
+			};
+			AoDi.prototype.loadEngine = function () {
+				this.engine.run();
+			};
+
+			// 奥迪另一个车型也可以搭配下面的发动机
+			function AoDi1(engine) {
+				this.engine = engine;
+			}
+
+			AoDi1.prototype.platform = function () {
+				console.log("aodi1");
+			};
+			AoDi1.prototype.loadEngine = function () {
+				this.engine.run();
+			};
+
+			// 这样实现就不是桥接模式了吧？？？？
+			// function Engine(name) {
+			//     this.name = name;
+			//     this.run = function () {
+			//         console.log(this.name, "run");
+			//     };
+			// }
+
+			function V6() {
+				this.run = function () {
+					console.log("v6发动机");
+				};
+			}
+
+			function V8() {
+				this.run = function () {
+					console.log("v8发动机");
+				};
+			}
+
+			var aodi = new AoDi(new V6());
+			var aodi1 = new AoDi(new V8());
+			var aodi2 = new AoDi1(new V8());
+			aodi.loadEngine();
+			aodi1.loadEngine();
+			aodi2.loadEngine();
+		</script>
+	</body>
+</html>

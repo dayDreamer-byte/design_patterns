@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <input type="text" id="input" />
+        <button id="btn">验证</button>
+        <script>
+            // 职责链模式 使多个对象都可以发送请求，从而避免了请求的发送者与多个接收者直接的耦合关系，
+            // 将这些接收者连接成一条链，顺着这条链传递该请求，直到找到能处理该请求的对象。
+
+            // 场景：表单验证
+            // 不适用职责链验证表单
+            btn.onclick = function () {
+                let val = input.value;
+                if (val.length <= 0) {
+                    console.log("不能为空");
+                } else {
+                    if (Number.isNaN(+val)) {
+                        console.log("需要输入数字");
+                    } else {
+                        if (val.length < 6) {
+                            console.log("需要大于6位");
+                        } else {
+                            console.log("验证通过");
+                        }
+                    }
+                }
+            };
+            // 实现职责链调用
+        </script>
+    </body>
+</html>

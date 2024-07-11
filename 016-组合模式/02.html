@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 根据树形结构处理菜单
+            const trees = [
+                {
+                    name: "root",
+                    childrens: [
+                        {
+                            name: "一级菜单1",
+                            childrens: [
+                                {
+                                    name: "二级菜单1-1",
+                                    childrens: [
+                                        {
+                                            name: "三级菜单3-1",
+                                            childrens: [
+                                                {
+                                                    name: "四级菜单4-1",
+                                                    childrens: [
+                                                        {
+                                                            name: "五级菜单5-1",
+                                                            childrens: [],
+                                                        },
+                                                    ],
+                                                },
+                                            ],
+                                        },
+                                    ],
+                                },
+                                {
+                                    name: "二级菜单1-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单1-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单1-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                        {
+                            name: "一级菜单2",
+                            childrens: [
+                                {
+                                    name: "二级菜单2-1",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单2-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单2-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单2-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                        {
+                            name: "一级菜单3",
+                            childrens: [
+                                {
+                                    name: "二级菜单3-1",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单3-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单3-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单3-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                        {
+                            name: "一级菜单4",
+                            childrens: [
+                                {
+                                    name: "二级菜单4-1",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单4-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单4-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单4-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    name: "root2",
+                    childrens: [
+                        {
+                            name: "一级菜单1",
+                            childrens: [
+                                {
+                                    name: "二级菜单1-1",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单1-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单1-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单1-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                        {
+                            name: "一级菜单2",
+                            childrens: [
+                                {
+                                    name: "二级菜单2-1",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单2-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单2-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单2-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                        {
+                            name: "一级菜单3",
+                            childrens: [
+                                {
+                                    name: "二级菜单3-1",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单3-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单3-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单3-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                        {
+                            name: "一级菜单4",
+                            childrens: [
+                                {
+                                    name: "二级菜单4-1",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单4-2",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单4-3",
+                                    childrens: [],
+                                },
+                                {
+                                    name: "二级菜单4-4",
+                                    childrens: [],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ];
+
+            // 组合模式模拟场景：树形菜单栏
+            class Folder {
+                constructor(folder) {
+                    this.folder = folder;
+                    this.lists = [];
+                    this.el;
+                    if (this.folder === "root") {
+                        this.el = document.createElement("div");
+                        this.el.id = "root";
+                        document.body.appendChild(this.el);
+                    } else {
+                        this.el = document.createElement("li");
+                        this.el.innerText = this.folder;
+                    }
+                }
+                add(folder) {
+                    this.lists.push(folder);
+                }
+                render(parentEl) {
+                    console.log("render", this.folder);
+                    let oul = document.createElement("ul");
+                    this.el.appendChild(oul);
+                    if (parentEl) {
+                        parentEl.appendChild(this.el);
+                    }
+                    this.lists.forEach((item) => {
+                        item.render(oul);
+                    });
+                }
+            }
+
+            class File {
+                constructor(file) {
+                    this.file = file;
+                }
+                render(parentEl) {
+                    console.log("render", this.file);
+                    let oli = document.createElement("li");
+                    oli.innerText = this.file;
+                    parentEl.appendChild(oli);
+                }
+            }
+
+            function treeHandler(root, item) {
+                const folder = new Folder(item.name);
+                root.add(folder);
+                if (item && item.childrens && item.childrens.length > 0) {
+                    item.childrens.forEach((child) => {
+                        treeHandler(folder, child);
+                    });
+                }
+            }
+
+            function initTree() {
+                const root = new Folder("root");
+                trees.forEach((item) => {
+                    treeHandler(root, item);
+                });
+                root.render();
+            }
+
+            initTree();
+        </script>
+    </body>
+</html>

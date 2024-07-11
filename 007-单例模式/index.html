@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 单例模式
+            // 保证一个类仅有一个实例，并提供一个访问它的全局访问点
+
+            // es5
+            var instance = (function () {
+                var instance = null;
+                function User(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+                return function (name, age) {
+                    if (!instance) {
+                        instance = new User(name, age);
+                    }
+                    return instance;
+                };
+            })();
+
+            console.log(instance("q",18));
+
+            // es6
+            class Singleton {
+                constructor(name, age) {
+                    if (!Singleton.instance) {
+                        this.name = name;
+                        this.age = age;
+                        Singleton.instance = this;
+                    }
+                    return Singleton.instance;
+                }
+            }
+        </script>
+    </body>
+</html>

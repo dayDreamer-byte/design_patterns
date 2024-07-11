@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 观察者模式是一种行为设计模式，它允许一个对象（称为主题或可观察者）将其状态的变化通知给一组依赖于它的其他对象（称为观察者）。
+            // 这种模式被广泛应用在软件工程中，特别是在事件处理系统和消息传递系统中。
+            // 主题（被观察者）/（目标）与观察者为一对多关系。
+
+            // 目标
+            class Subject {
+                constructor() {
+                    // 观察者集合
+                    this.observers = [];
+                }
+
+                add(observer) {
+                    this.observers.push(observer);
+                }
+
+                remove(observer) {
+                    this.observers = this.observers.filter((item) => item !== observer);
+                }
+                // 目标改变通知方法
+                notify() {
+                    this.observers.forEach((item) => {
+                        item.update();
+                    });
+                }
+            }
+
+            // 观察者类
+            class Observer {
+                constructor(name) {
+                    this.name = name;
+                }
+                update() {
+                    console.log("observer update", this.name);
+                }
+            }
+
+            const subject = new Subject();
+            const observer1 = new Observer("q1");
+            const observer2 = new Observer("q2");
+            subject.add(observer1);
+            subject.add(observer2);
+            setTimeout(() => {
+                subject.remove(observer1);
+            }, 1000);
+            setTimeout(() => {
+                subject.notify();
+            }, 2000);
+        </script>
+    </body>
+</html>

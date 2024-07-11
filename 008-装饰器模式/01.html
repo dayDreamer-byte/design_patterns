@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>装饰器模式应用</title>
+    </head>
+    <body>
+        <script>
+            // uv pv上报实现 流程：先上报uv 执行render 在上报pv
+            // 为了保证执行顺序 需要这么逐步调用
+            // 使用装饰器模式重构下 并保证执行顺序
+            
+            // function logUV() {
+            //     console.log("上报uv");
+            //     render();
+            // }
+            // function render() {
+            //     console.log("render");
+            //     logPV();
+            // }
+            // function logPV() {
+            //     console.log("上报pv");
+            // }
+            // logUV();
+            // 上报uv render 上报pv
+
+            //
+            // function render(beforeFn, afterFn) {
+            //     beforeFn();
+            //     console.log("render");
+            //     afterFn();
+            // }
+            // function beforeFn() {
+            //     console.log("上报uv");
+            // }
+            // function afterFn() {
+            //     console.log("上报pv");
+            // }
+            // render(beforeFn, afterFn);
+
+            // 前置函数
+            Function.prototype.before = function (beforeFn) {
+                var _this = this; // render;
+
+                // return funtion实际是返回Function类的实例 可以链式调用再原型链上查找
+                return function () {
+                    // 先执行前置
+                    beforeFn.apply(this, arguments);
+                    // 在执行自身。这里的result并不返回任何东西
+                    var result = _this.apply(_this, arguments);
+                    return result;
+                };
+            };
+            Function.prototype.after = function (afterFn) {
+                var _this = this;
+                return function () {
+                    // 这里执行的是前置函数，并不是render函数。
+                    var result = _this.apply(_this, arguments);
+                    afterFn.apply(this, arguments);
+                    return result;
+                };
+            };
+
+            function render() {
+                console.log("render");
+            }
+
+            // 这里的链式调用是在return的funtion原型链上找before、after
+            // 这里只是把前置、后置函数注册到render函数上。并不会执行
+            var render1 = render
+                .before(function () {
+                    console.log("before");
+                })
+                .after(function () {
+                    console.log("after");
+                });
+            render1();
+        </script>
+    </body>
+</html>

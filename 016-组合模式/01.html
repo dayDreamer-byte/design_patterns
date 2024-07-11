@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 组合模式模拟场景：树形菜单栏
+            class Folder {
+                constructor(folder) {
+                    this.folder = folder;
+                    this.lists = [];
+                    this.el;
+                    if (this.folder === "root") {
+                        this.el = document.createElement("div");
+                        this.el.id = "root";
+                        document.body.appendChild(this.el);
+                    } else {
+                        this.el = document.createElement("li");
+                        this.el.innerText = this.folder;
+                    }
+                }
+                add(folder) {
+                    this.lists.push(folder);
+                }
+                render(parentEl) {
+                    console.log("render", this.folder);
+                    let oul = document.createElement("ul");
+                    this.el.appendChild(oul);
+                    if (parentEl) {
+                        parentEl.appendChild(this.el);
+                    }
+                    this.lists.forEach((item) => {
+                        item.render(oul);
+                    });
+                }
+            }
+
+            class File {
+                constructor(file) {
+                    this.file = file;
+                }
+                render(parentEl) {
+                    console.log("render", this.file);
+                    let oli = document.createElement("li");
+                    oli.innerText = this.file;
+                    parentEl.appendChild(oli);
+                }
+            }
+
+            const root = new Folder("root");
+            const user = new Folder("用户管理");
+            const auth = new Folder("权限管理");
+            const news = new Folder("新闻管理");
+
+            const addUser = new File("添加用户");
+            const editUser = new File("编辑用户");
+            const addAuth = new File("添加权限");
+            const editAuth = new File("编辑权限");
+            const addNews = new File("添加新闻");
+            const editNews = new File("编辑新闻");
+
+            user.add(addUser);
+            user.add(editUser);
+            auth.add(addAuth);
+            auth.add(editAuth);
+            news.add(addNews);
+            news.add(editNews);
+
+            root.add(user);
+            root.add(auth);
+            root.add(news);
+
+            root.render();
+        </script>
+    </body>
+</html>

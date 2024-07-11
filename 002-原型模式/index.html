@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            function User(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            // 在原型上添加方法，可以在多个实例化时节省内存空间。多个实例对象共享一块say方法内存。
+            // 通过prototype解决构造器函数无法共享属性和方法的问题。
+            User.prototype.say = function () {
+                console.log(this.name + "-", this.age);
+            };
+            const worker = new User("j", 100);
+            const doctor = new User("a", 19);
+            console.log(worker, doctor);
+            worker.say();
+            doctor.say();
+            console.log(worker.say === doctor.say)
+        </script>
+    </body>
+</html>

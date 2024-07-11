@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 命令接口
+			class Command {
+				execute() {}
+			}
+			// 具体命令类 - 关闭电视
+			class TVOFFCommand extends Command {
+				constructor(tv) {
+					super();
+					this.tv = tv;
+				}
+				// 重写execute方法
+				execute() {
+					this.tv.turnOff();
+				}
+			}
+			// 具体命令类 - 打开电视
+			class TVONCommand extends Command {
+				constructor(tv) {
+					super();
+					this.tv = tv;
+				}
+				// 重写execute方法
+				execute() {
+					this.tv.turnON();
+				}
+			}
+
+            // 接受者类
+			class TV {
+				turnOff() {
+					console.log("关闭电视");
+				}
+				turnON() {
+					console.log("打开电视");
+				}
+			}
+
+			// 调用者
+			class RemoteControl {
+				constructor() {
+					this.command = null;
+				}
+				setCommand(command) {
+					this.command = command;
+				}
+				pressButton() {
+					this.command.execute();
+				}
+			}
+
+            // 
+			const tv = new TV();
+			const offTV = new TVOFFCommand(tv);
+			const onTV = new TVONCommand(tv);
+			const remoteControl = new RemoteControl();
+			remoteControl.setCommand(offTV);
+			remoteControl.pressButton();
+			remoteControl.setCommand(onTV);
+			remoteControl.pressButton();
+		</script>
+	</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            /**
+             * 抽象工厂模式，可以将复杂的对象创建过程进行封装，并且在需要创建不同类型的对象时，只需要调用相应的工厂函数即可
+             **/
+            // 1.定义一个父类
+            class User {
+                constructor(name, role, pages) {
+                    this.name = name;
+                    this.role = role;
+                    this.pages = pages;
+                }
+
+                welcome() {
+                    console.log("欢迎回来", this.name);
+                }
+
+                // 定义一个抽象方法 类似java的抽象方法
+                dataShow() {
+                    throw new Error("抽象方法必须子类重新实现之后调用，父类调用抛出异常");
+                }
+            }
+            console.log(User)
+            // 2.定义子类实现
+            class SuperAdmin extends User {
+                constructor(name) {
+                    super(name, "superAdmin", ["home", "user-manage", "right-manage", "news-manage"]);
+                }
+                addRight() {}
+                // 重写父类datashow
+                dataShow() {
+                    console.log(this.role, "---dataShow");
+                }
+                addUser() {}
+            }
+            class Admin extends User {
+                constructor(name) {
+                    super(name, "admin", ["home", "user-manage", "news-manage"]);
+                }
+                // 重写父类datashow
+                dataShow() {
+                    console.log(this.role, "---dataShow");
+                }
+                addUser() {}
+            }
+            // 3. 定义工厂函数
+            function getAbstractUserFactory(role) {
+                switch (role) {
+                    case "superAdmin":
+                        return SuperAdmin;
+                    case "admin":
+                        return Admin;
+                    default:
+                        throw new Error("无效的权限");
+                }
+            }
+            const UserClass = getAbstractUserFactory("superAdmin");
+            const user = new UserClass("aaa");
+
+
+            // 使用es5实现抽象工厂模式
+            function User1(name, role, pages) {
+                this.name = name;
+                this.role = role;
+                this.pages = pages;
+            }
+            console.log(User1)
+            User1.prototype.welcome = function () {
+                console.log(this.name, "，欢迎回来");
+            };
+            User1.prototype.dataShow = function () {
+                // abstract 抽象方法需要子类实现
+                throw new Error("抽象方法需要子类实现");
+            };
+            function SuperAdmin1(name) {
+                // 模拟继承1
+                // call() 方法会以给定的 this 值和逐个提供的参数调用该函数，返回使用指定的 this 值和参数调用函数后的结果。
+                User1.call(this, name, "superAdmin", ["home", "user-manage", "right-manage", "news-manage"]);
+            }
+            // 模拟继承2
+            // 以一个现有对象作为原型，创建一个新对象。
+            SuperAdmin1.prototype = Object.create(User1.prototype);
+            // 模拟继承3
+            SuperAdmin1.prototype.constructor = User1;
+            SuperAdmin1.prototype.addUser = function () {};
+            SuperAdmin1.prototype.addRight = function () {};
+            function Admin1(name) {
+                // 模拟继承1
+                User1.call(this, name, "admin", ["home", "user-manage", "news-manage"]);
+            }
+            // 模拟继承2
+            Admin1.prototype = Object.create(User1.prototype);
+            // 模拟继承3
+            Admin1.prototype.constructor = User1;
+            Admin1.prototype.addUser = function () {};
+            function getAbstractUserFactory1(role) {
+                switch (role) {
+                    case "superAdmin":
+                        return SuperAdmin1;
+                    case "admin1":
+                        return Admin1;
+                    default:
+                        throw new Error("无效的权限");
+                }
+            }
+
+            const UserClass1 = getAbstractUserFactory1("superAdmin");
+            const user1 = new UserClass1("bbb");
+        </script>
+    </body>
+</html>

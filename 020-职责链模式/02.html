@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <input type="text" id="input" />
+        <button id="btn">验证</button>
+        <script>
+            // 职责链模式 使多个对象都可以发送请求，从而避免了请求的发送者与多个接收者直接的耦合关系，
+            // 将这些接收者连接成一条链，顺着这条链传递该请求，直到找到能处理该请求的对象。
+
+            // 场景：表单验证
+            // 实现职责链调用,实现链式调用
+            btn.onclick = function () {
+                emptyChain.check();
+            };
+
+            function checkEmpty() {
+                if (input.value.length <= 0) {
+                    console.log("不能为空");
+                    return;
+                }
+                return "next";
+            }
+            function checkNumber() {
+                if (Number.isNaN(+input.value)) {
+                    console.log("需要输入数字");
+                    return;
+                }
+                return "next";
+            }
+            function checkLength() {
+                if (input.value.length < 6) {
+                    console.log("需要大于6位");
+                    return;
+                }
+                return "next";
+            }
+            class Chain {
+                constructor(rule) {
+                    this.checkRule = rule;
+                    this.nextRule = null;
+                }
+
+                addRule(rule) {
+                    this.nextRule = new Chain(rule);
+                    return this.nextRule;
+                }
+                end() {
+                    this.nextRule = {
+                        check() {
+                            console.log("验证通过");
+                        },
+                    };
+                }
+
+                check() {
+                    this.checkRule() === "next" ? this.nextRule.check() : null;
+                }
+            }
+
+            let emptyChain = new Chain(checkEmpty);
+            emptyChain.addRule(checkNumber).addRule(checkLength).end();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // es5模块化
+            // 提供对象公共/私有的方法和变量。避免作用域变量污染。
+            // 采用闭包实现模块化
+            var numer = (function () {
+                // 私有变量
+                var count = 0;
+                return {
+                    // 公共方法
+                    increment() {
+                        console.log(count);
+                        return ++count;
+                    },
+                    // 公共方法
+                    decrement() {
+                        return --count;
+                    },
+                    // 公共方法
+                    reset() {
+                        count = 0;
+                    },
+                };
+            })();
+            numer.increment(); // count == 0
+            numer.increment(); // count == 1
+            numer.increment(); // count == 2
+        </script>
+
+        <script type="module">
+            /**
+             * 注意事项
+             * 1.每个模块都是单独的作用域，不会污染全局命名空间。
+             * 2.模块中的变量、函数或对象只有在使用export关键字导出后才能被其他模块使用。
+             * 3.在导入模块时，可以使用不同的导入方式，根据需要选择导入整个模块或部分成员，并且可以为导入的成员指定别名以避免命名冲突。
+             * es6导入导出的几种方式
+             * 1.
+             *  基本导出:
+             *  使用export导出一个或多个变量、函数或对象;
+             *  export const name = ""; // 导出一个变量
+             *  export function greet(){}; // 导出一个函数
+             *  export default {name,greet}; // 默认导出
+             *  基本导入:
+             *  使用import导入一个或多个变量;
+             *  import {name,greet} from './module'; // 导入多个变量
+             *  import {fullName as name, fn as greet} from './module.js'; // 别名导入
+             *  import moduleTarget from './module'; // 默认导入 只接收export default;
+             * 2.
+             *  命名导出:
+             *  使用as关键字给导出的变量指定一个别名;
+             *  export {name as fullName};
+             *  命名导入:
+             *  使用as关键字给导入的变量指定一个别名;
+             *  import {fullName as name} from './module.js';
+             * 3.
+             *  默认导出: 在一个模块中，只能有一个默认导出
+             *  export default function() {}
+             *  export default class MyClass {}
+             *  默认导入:
+             *  import moduleTarget from './module';
+             * 4.
+             *  统一导出:
+             *  export * from './module'
+             *  统一导入:
+             *  import * as module from './module';
+             **/
+            // es6模块化 需要运行服务演示，否则报错 已被CORS策略阻止。
+            // 这里的count 也是es6js模块私有的
+            import { increment, decrement } from "./es6.js";
+        </script>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 使用场景；各种弹窗都需要使用弹窗动画。可以使用桥接模式搭配。
+            // 1. 定义动画
+            const animations = {
+                bounce: {
+                    show(ele) {
+                        console.log(ele, "弹跳显示");
+                    },
+                    hide: function (ele) {
+                        console.log(ele, "弹跳隐藏");
+                    },
+                },
+                slide: {
+                    show() {
+                        console.log("滑动显示");
+                    },
+                    hide: function () {
+                        console.log("滑动隐藏");
+                    },
+                },
+                rotate: {
+                    show() {
+                        console.log("旋转显示");
+                    },
+                    hide: function () {
+                        console.log("旋转隐藏");
+                    },
+                },
+            };
+            // 2. 定义弹窗
+            function Modal(ele, animation) {
+                this.ele = ele;
+                this.animation = animation;
+            }
+            // 抽象方法
+            Modal.prototype.show = function () {
+                this.animation.show(this.ele); // 实现
+            };
+            // 抽象方法
+            Modal.prototype.hide = function () {
+                this.animation.hide(this.ele); // 实现
+            };
+
+            const modal = new Modal("div", animations.bounce);
+            modal.show();
+            setTimeout(() => {
+                modal.hide();
+            }, 2000);
+
+        </script>
+    </body>
+</html>

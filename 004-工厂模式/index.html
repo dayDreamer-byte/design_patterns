@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            /**
+             * 工厂模式是一种创建对象的设计模式，它通过一个共同的接口来封装对象的创建过程。使用工厂模式可以隐藏具体对象的创建逻辑，使客户端代码与具体对象的创建解耦。
+             **/
+
+            // 基于构造器模式创建工厂函数
+            // 1. 定义一个工厂函数
+            function UserFactory(role) {
+                // 2.定义一个工厂类，工厂函数返回的对象基于此类创建。
+                function User(role, pages) {
+                    this.role = role;
+                    this.pages = pages;
+                }
+                var roles = {
+                    superAdmin: ["home", "user-manage", "right-manage", "news-manage"],
+                    admin: ["home", "user-manage", "news-manage"],
+                    editor: ["home", "news-manage"],
+                };
+                return new User(role, roles[role]);
+            }
+            const superAdmin = UserFactory("superAdmin");
+            const admin = UserFactory("admin");
+
+            // 基于Class类创建工厂函数
+            class User {
+                constructor(role, pages) {
+                    this.role = role;
+                    this.pages = pages;
+                }
+                static roles = {
+                    superAdmin: ["home", "user-manage", "right-manage", "news-manage"],
+                    admin: ["home", "user-manage", "news-manage"],
+                    editor: ["home", "news-manage"],
+                };
+                static UserFactory(role) {
+                    if (!User.roles[role]) {
+                        throw new Error("无效的权限：" + role);
+                    }
+                    return new User(role, User.roles[role]);
+                }
+            }
+            const superAdmin1 = User.UserFactory("superAdmin");
+            const admin1 = User.UserFactory("admin");
+            console.log(superAdmin1, admin1);
+
+            // 最简洁的做法
+            function createUser(role) {
+                const roles = {
+                    superAdmin: ["home", "user-manage", "right-manage", "news-manage"],
+                    admin: ["home", "user-manage", "news-manage"],
+                    editor: ["home", "news-manage"],
+                };
+
+                if (!roles[role]) {
+                    throw new Error("Invalid role:" + role);
+                }
+
+                return {
+                    role,
+                    pages: roles[role],
+                };
+            }
+        </script>
+    </body>
+</html>

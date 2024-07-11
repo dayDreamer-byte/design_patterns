@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 迭代器模式。提供一种方法顺序访问一个聚合对象的各个元素，而又不需要暴露该对象的内部表示。
+
+			// 实现迭代器方法
+			var each = function (array, cb) {
+				for (var i = 0; i < array.length; i++) {
+					cb(array, i, array[i]);
+				}
+			};
+
+			each([111, 222, 333, 444, 555, 666], function (arr, key, value) {
+				console.log(arr, key, value);
+			});
+
+			// ES6 Iterator
+			// 内置Iterator接口：Array map set String arguments NodeList
+
+			// 演示内置迭代器
+			var arr = ["kerwin", "xiaoming", "tiechui"]; // Symbol(Symbol.iterator)
+			// 支持迭代器会有一个Symbol.iterator的属性。可以使用 for...of循环。
+			var ite = arr[Symbol.iterator]();
+			console.log(ite.next(), ite.next(), ite.next()); // {done :false,value:"kerwin"/"xiaoming"/"tiechui"}
+
+			// 拓展对象迭代器。（模仿数组）
+			let obj = {
+				// "name":"kerwin",不支持这种迭代
+				0: "kerwin",
+				1: "xiaoming",
+				// 拓展迭代器
+				length: 2,
+				[Symbol.iterator]: Array.prototype[Symbol.iterator],
+			};
+			for (let item of obj) {
+				console.log(item);
+			}
+
+			console.warn("------------------分割线-----------------");
+			// 深度拓展Symbol.iterator
+			let objs = {
+				name: "kerwin",
+				code: 200,
+				list: ["aaaa", "bbbb", "cccc"],
+				[Symbol.iterator]: function () {
+					let index = -1;
+					return {
+						next: () => {
+							index++;
+							if (index < Object.keys(this).length) {
+								return {
+									value: this[Object.keys(this)[index]],
+									key: Object.keys(this)[index],
+									done: false,
+								};
+							} else {
+								return {
+									value: undefined,
+									key: undefined,
+									done: true,
+								};
+							}
+						},
+					};
+				},
+			};
+			let ites = objs[Symbol.iterator]();
+			console.log(ites.next(), ites.next(), ites.next());
+			for (let item of objs) {
+				console.log(item);
+			}
+		</script>
+	</body>
+</html>

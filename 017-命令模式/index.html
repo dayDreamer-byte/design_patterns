@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 命令模式 不常用
+			// 由三种角色构成：发布者 invoker , 接收者 receiver , 命令对象 command
+			// 发布者接收命令对象 -> 执行命令对象（接收者类） -> 执行接受者方法
+
+			class Receiver {
+				// 接收者类
+				execute() {
+					console.log("接收者执行请求");
+				}
+			}
+
+			class Command {
+				// 命令者类
+				constructor(receiver) {
+					this.receiver = receiver;
+				}
+				execute() {
+					console.log("命令对象->接收者->对应接口执行");
+					this.receiver.execute();
+				}
+			}
+
+			class Invoker {
+				// 发布者类
+				constructor(command) {
+					this.command = command;
+				}
+				execute() {
+					console.log("发布请求");
+					this.command.execute();
+				}
+			}
+
+			const order = new Command(new Receiver());
+			const invoker = new Invoker(order);
+			invoker.execute();
+		</script>
+	</body>
+</html>

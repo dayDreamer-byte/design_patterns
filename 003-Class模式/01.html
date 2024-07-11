@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>使用ES6 Class模式实现选项卡功能</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            .container,
+            .container1 {
+                width: 400px;
+            }
+            .header {
+                width: 100%;
+                list-style: none;
+                display: flex;
+                align-items: center;
+            }
+            .header li {
+                width: calc(100% / 7);
+                text-align: center;
+                height: 50px;
+                line-height: 50px;
+            }
+            .header > li.active {
+                background-color: red;
+            }
+
+            .box {
+                width: 100%;
+                height: 400px;
+            }
+            .box > div {
+                display: none;
+                height: 100%;
+            }
+            .box > div.active {
+                display: block;
+                background-color: yellow;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <ul class="header">
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+            </ul>
+            <div class="box">
+                <div class="active">111</div>
+                <div>222</div>
+                <div>333</div>
+                <div>444</div>
+                <div>555</div>
+                <div>666</div>
+                <div>777</div>
+            </div>
+        </div>
+        <div class="container1">
+            <ul class="header">
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+            </ul>
+            <div class="box">
+                <div class="active">111</div>
+                <div>222</div>
+                <div>333</div>
+                <div>444</div>
+                <div>555</div>
+                <div>666</div>
+                <div>777</div>
+            </div>
+        </div>
+        <script>
+            class Tabs {
+                constructor(selector, type) {
+                    this.type = type;
+                    this.selector = document.querySelector(selector);
+                    this.boxItems = this.selector.querySelectorAll(".box div");
+                    this.headerItems = this.selector.querySelectorAll(".header li");
+                    this.change();
+                }
+                change() {
+                    for (let i = 0; i < this.headerItems.length; i++) {
+                        this.headerItems[i].addEventListener(this.type, () => {
+                            for (let m = 0; m < this.headerItems.length; m++) {
+                                this.boxItems[m].classList.remove("active");
+                                this.headerItems[m].classList.remove("active");
+                                if (m == i) {
+                                    this.boxItems[i].classList.add("active");
+                                    this.headerItems[i].classList.add("active");
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            new Tabs(".container", "click");
+            new Tabs(".container1", "mousemove");
+        </script>
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            // 策略模式
+            // 将大量if...else... 替换为一种方便管理的对象等。
+            // 场景：根据评级计算员工年终奖
+
+            //定义策略管理
+            const bonus = {
+                A: function (money) {
+                    return money * 3;
+                },
+                B: function (money) {
+                    return money * 2;
+                },
+            };
+
+            function calBonus(level, money) {
+                // 不使用策略模式，相对麻烦，不好维护，易读性差
+                // if (level === "A") {
+                //     return money * 3;
+                // }
+                // if (level === "B") {
+                //     return money * 2;
+                // }
+                // 使用策略模式
+                return bonus[level](money);
+            }
+        </script>
+    </body>
+</html>
