@@ -38,3 +38,7 @@
 > -   [018-模板方法模式](https://github.com/dayDreamer-byte/reading-notes/tree/main/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/018-%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F)
 > -   [019-迭代器模式](https://github.com/dayDreamer-byte/reading-notes/tree/main/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/019-%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F)
 > -   [020-职责链模式](https://github.com/dayDreamer-byte/reading-notes/tree/main/JavaScript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/020-%E8%81%8C%E8%B4%A3%E9%93%BE%E6%A8%A1%E5%BC%8F)
+
+# 设计模式终极
+
+[⭐⭐⭐⭐⭐ 有能力看这里](https://refactoringguru.cn/design-patterns)
